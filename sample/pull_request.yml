@@ -1,0 +1,46 @@
+name: sample-pull_request
+
+on:
+  pull_request:
+    # default: opened, synchronize, reopened, ready_for_review
+    types: [
+      opened,
+      synchronize,
+      reopened,
+      closed,
+      ready_for_review,
+      unlocked,
+      review_requested,
+      review_request_removed,
+      labeled,
+      unlabeled,
+      edited,
+      assigned,
+      unassigned,
+      milestoned,
+      demilestoned,
+      auto_merge_enabled,
+      auto_merge_disabled,
+      locked,
+      unlocked
+    ]
+    paths:
+      - src/**
+    paths-ignore:
+      - sample/pull_request.yml
+    branches:
+      - master
+    branches-ignore:
+      - 'v*'
+    tags:
+      - v*
+      - '*-rc*'
+    tags-ignore:
+      - 'v*'
+      - '*-rc*'
+
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "this is a test"
