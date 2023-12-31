@@ -1,7 +1,27 @@
 name: learn-github-actions
 on:
   pull_request:
-    types: [opened, synchronize, reopened, closed, ready_for_review, unlocked, review_requested, review_request_removed, labeled, unlabeled, edited, assigned, unassigned, milestoned, demilestoned, auto_merge_enabled, auto_merge_disabled, locked, unlocked]
+    types: [
+      opened,
+      # synchronize,
+      reopened,
+      closed,
+      ready_for_review,
+      unlocked,
+      review_requested,
+      review_request_removed,
+      labeled,
+      unlabeled,
+      edited,
+      assigned,
+      unassigned,
+      milestoned,
+      demilestoned,
+      auto_merge_enabled,
+      auto_merge_disabled,
+      locked,
+      unlocked
+    ]
 
 jobs:
   check-bats-version:
