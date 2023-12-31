@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [
       opened,
-      # synchronize,
+      synchronize,
       reopened,
       closed,
       ready_for_review,
@@ -22,6 +22,8 @@ on:
       locked,
       unlocked
     ]
+    paths:
+      - src/**
 
 jobs:
   check-bats-version:
