@@ -5,3 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "this is a test"
+      - uses: actions/checkout@v2
+      - run: |
+          ls -la
+          pwd
+          cd .git
