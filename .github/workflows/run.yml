@@ -1,12 +1,9 @@
 name: learn-github-actions
-on: [push]
+on:
+  pull_request
+
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "this is a test"
-      - uses: actions/checkout@v2
-      - run: |
-          ls -al
-          cd .github/workflows/
-          ls -al
+      - run: echo ${github.event.action}
