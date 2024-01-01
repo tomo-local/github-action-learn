@@ -1,4 +1,5 @@
 name: pull-request-target
+
 on:
   pull_request_target:
     types: [
@@ -18,14 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - id: labeled
-        if: github.event.action == 'labeled'
+      - if: github.event.action == 'labeled'
         run: echo "labeled"
-      - id: check-labeled
-        if: github.event.action == 'labeled' && contains(github.event.label.name, 'review')
+
+      - if: github.event.action == 'labeled' && contains(github.event.label.name, 'review')
         run: echo "labeled review"
 
-      - id: unlabeled
-        if: github.event.action == 'unlabeled' && contains(github.event.label.name, 'draft')
+      - if: github.event.action == 'unlabeled' && contains(github.event.label.name, 'draft')
         run: echo "unlabeled draft"
