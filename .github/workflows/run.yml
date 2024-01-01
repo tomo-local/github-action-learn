@@ -18,15 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 100
-          ref: ${{ github.head_ref }}
-
-      - run: echo "${github.repository_owner}"
-
-      # - id: ready_for_review
-      #   if: github.event.action == 'ready_for_review'
-      #   run: echo "ready_for_review"
 
       - id: labeled
         if: github.event.action == 'labeled'
