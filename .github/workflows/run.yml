@@ -2,29 +2,33 @@ name: pull-request-target
 
 on:
   pull_request_target:
-    types: [
-      opened,
-      synchronize,
-      reopened,
-      ready_for_review,
-      review_requested,
-      review_request_removed,
-      labeled,
-      unlabeled,
-      edited,
-    ]
+    types:
+      - labeled
+      - unlabeled
 
 jobs:
   sample-job:
+    if: github.event.action == 'labeled'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: labeled
+        uses: actions/checkout@v2
 
-      - if: github.event.action == 'labeled'
-        run: echo "labeled"
-
-      - if: github.event.action == 'labeled' && contains(github.event.label.name, 'review')
+      - if: contains(github.event.label.name, 'review')
         run: echo "labeled review"
 
-      - if: github.event.action == 'unlabeled' && contains(github.event.label.name, 'draft')
+      - if: contains(github.event.label.name, 'draft')
+        run: echo "labeled draft"
+
+  sample-job2:
+    if: github.event.action == 'unlabeled'
+    runs-on: ubuntu-latest
+    steps:
+      - name: unlabeled
+        uses: actions/checkout@v2
+
+      - if: contains(github.event.label.name, 'review')
+        run: echo "unlabeled review"
+
+      - if:  contains(github.event.label.name, 'draft')
         run: echo "unlabeled draft"
