@@ -1,7 +1,7 @@
 name: pull-request-target
 
 on:
-  pull_request_target:
+  pull_request:
     types: [
       opened,
       synchronize,
@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - if: github.event.action == 'labeled'
         run: echo "labeled"
 
