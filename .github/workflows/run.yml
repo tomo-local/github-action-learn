@@ -12,8 +12,6 @@ on:
       unlabeled,
       edited,
     ]
-    paths:
-      - src/**
 
 jobs:
   sample-job:
