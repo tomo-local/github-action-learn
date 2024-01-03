@@ -72,7 +72,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             @${{ github.event.sender.login }} からレビュー依頼がありました。
-            @${{ join(github.event.pull_request.requested_reviewers.*.login, ' @') }}、よろしくお願いします。
+            @${{ join(github.event.pull_request.requested_reviewers.*.login, ' @') }} よろしくお願いします。
             ### レビュー
             - [ ] ベースブランチが `sp~` である (or 大きい修正の場合は機能開発用のブランチである)
             - [ ] コードレビュー
