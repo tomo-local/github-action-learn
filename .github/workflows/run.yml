@@ -6,6 +6,7 @@ on:
       - synchronize
       - labeled
       - assigned
+      - opened
 
 jobs:
 
@@ -13,7 +14,7 @@ jobs:
     if: >
       github.event.pull_request.assignee != null &&
       (
-        contains(fromJson('["synchronize", "assigned", "labeled"]'), github.event.action) &&
+        contains(fromJson('["synchronize", "assigned", "labeled", "opened"]'), github.event.action) &&
         (
           contains(github.event.pull_request.labels.*.name, 'draft') ||
           contains(github.event.pull_request.labels.*.name, 'review')
