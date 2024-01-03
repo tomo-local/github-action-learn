@@ -12,6 +12,7 @@ on:
     branches:
       - feature/*
       - sp*
+      - step*
 
 jobs:
 
