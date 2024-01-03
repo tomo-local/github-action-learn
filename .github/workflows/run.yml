@@ -9,7 +9,6 @@ on:
 
 jobs:
 
-
   eslint:
     if: >
       github.event.pull_request.assignee != null &&
