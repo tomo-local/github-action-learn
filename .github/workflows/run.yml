@@ -1,7 +1,7 @@
 name: pull-request-review
 
 on:
-  pull_request:
+  pull_request_target:
     types:
       - synchronize
       - labeled
@@ -25,6 +25,8 @@ jobs:
       )
     name: checker / eslint
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -51,6 +53,8 @@ jobs:
       )
     name: checker / misspell
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     steps:
       - name: Check out code.
         uses: actions/checkout@v2
