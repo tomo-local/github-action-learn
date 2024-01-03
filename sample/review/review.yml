@@ -13,6 +13,9 @@ on:
       - feature/*
       - sp*
       - step*
+      - develop
+      - main
+      - release/*
 
 jobs:
   eslint:
