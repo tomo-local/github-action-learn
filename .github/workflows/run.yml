@@ -8,27 +8,27 @@ on:
 
 jobs:
   sample-job:
-    if: github.event.action == 'labeled'
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'draft') ||
+      contains(github.event.pull_request.labels.*.name, 'review') ||
+      ( contains(github.event.label.name, 'draft') &&
+        github.event.action == 'labeled' ) ||
+      ( contains(github.event.label.name, 'review') &&
+        github.event.action == 'labeled' )
+
     runs-on: ubuntu-latest
     steps:
       - name: labeled
         uses: actions/checkout@v2
+
+      - if: contains(github.event.pull_request.labels.*.name, 'draft')
+        run: echo "includes draft"
+
+      - if: contains(github.event.pull_request.labels.*.name, 'review')
+        run: echo "includes review"
 
       - if: contains(github.event.label.name, 'review')
         run: echo "labeled review"
 
       - if: contains(github.event.label.name, 'draft')
         run: echo "labeled draft"
-
-  sample-job2:
-    if: github.event.action == 'unlabeled'
-    runs-on: ubuntu-latest
-    steps:
-      - name: unlabeled
-        uses: actions/checkout@v2
-
-      - if: contains(github.event.label.name, 'review')
-        run: echo "unlabeled review"
-
-      - if:  contains(github.event.label.name, 'draft')
-        run: echo "unlabeled draft"
