@@ -32,14 +32,17 @@ jobs:
   comment-review:
     if: |
       contains(github.event.pull_request.labels.*.name, 'review') &&
-      github.event.pull_request.reviewers != null
+      contains(github.event.pull_request.labels.*.name, 'draft')
+
+    # github.event.pull_request.reviewers != null
 
     runs-on: ubuntu-latest
 
     steps:
-      - name: reviewer-check-message
+      - name: reviewer-checkout
         uses: actions/checkout@v3
-      - name: Checkout
+
+      - name: reviewer-check-message
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
