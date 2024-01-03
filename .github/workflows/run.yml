@@ -13,15 +13,15 @@ on:
 jobs:
 
   eslint:
-    if: >
-      github.event.pull_request.assignee != null &&
-      (
-        contains(fromJson('["synchronize", "assigned", "labeled", "opened"]'), github.event.action) &&
-        (
-          contains(github.event.pull_request.labels.*.name, 'draft') ||
-          contains(github.event.pull_request.labels.*.name, 'review')
-        )
-      )
+    # if: >
+    #   github.event.pull_request.assignee != null &&
+    #   (
+    #     contains(fromJson('["synchronize", "assigned", "labeled", "opened"]'), github.event.action) &&
+    #     (
+    #       contains(github.event.pull_request.labels.*.name, 'draft') ||
+    #       contains(github.event.pull_request.labels.*.name, 'review')
+    #     )
+    #   )
     name: checker / eslint
     runs-on: ubuntu-latest
     steps:
@@ -39,15 +39,15 @@ jobs:
           eslint_flags: "--no-eslintrc -c .eslintrc.json src/"
 
   misspell:
-    if: >
-      github.event.pull_request.assignee != null &&
-      (
-        contains(fromJson('["synchronize", "assigned", "labeled"]'), github.event.action) &&
-        (
-          contains(github.event.pull_request.labels.*.name, 'draft') ||
-          contains(github.event.pull_request.labels.*.name, 'review')
-        )
-      )
+    # if: >
+    #   github.event.pull_request.assignee != null &&
+    #   (
+    #     contains(fromJson('["synchronize", "assigned", "labeled"]'), github.event.action) &&
+    #     (
+    #       contains(github.event.pull_request.labels.*.name, 'draft') ||
+    #       contains(github.event.pull_request.labels.*.name, 'review')
+    #     )
+    #   )
     name: checker / misspell
     runs-on: ubuntu-latest
     steps:
