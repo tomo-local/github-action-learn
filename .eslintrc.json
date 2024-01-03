@@ -1,0 +1,19 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true
+  },
+  "extends": ["eslint:recommended"],
+  "overrides": [],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "rules": {
+    "eqeqeq": "error",
+    "no-console": "error",
+    "no-else-return": "error",
+    "max-depth": ["error", 3],
+    "complexity": ["error", 20]
+  }
+}
