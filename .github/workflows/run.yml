@@ -37,7 +37,7 @@ jobs:
       (
         (
           github.event.action == 'review_requested' &&
-          !contains(github.event.pull_request.labels.*.name, 'draft')
+          !contains(github.event.pull_request.labels.*.name, 'draft') &&
           contains(github.event.pull_request.labels.*.name, 'review')
         ) ||
         (
