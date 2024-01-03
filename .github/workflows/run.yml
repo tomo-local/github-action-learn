@@ -38,15 +38,16 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    steps:
-      - name: reviewer-checkout
-        uses: actions/checkout@v3
+    permissions:
+      pull-requests: write
 
+    steps:
       - name: reviewer-check-message
-        uses: thollander/actions-comment-pull-request@v2
+        uses: peter-evans/create-or-update-comment@v2
+
         with:
-          message: |
-            "
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
             ## メイン
             - [ ] ベースブランチが `sp~` である (or 大きい修正の場合は機能開発用のブランチである)
             - [ ] コードレビュー
@@ -57,4 +58,3 @@ jobs:
             - [ ] 権限による挙動の差異がある場合、その観点がある
             - [ ] 環境の設定値等に依存する処理がある場合、その観点がある
             - [ ] **やらなかったこと** に issue が作成され、記載されている
-            "
