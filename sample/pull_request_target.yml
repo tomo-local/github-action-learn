@@ -10,11 +10,9 @@ on:
 
 jobs:
   auto-check-review:
-    if: |
-      (
-        contains(github.event.pull_request.labels.*.name, 'draft') ||
-        contains(github.event.pull_request.labels.*.name, 'review')
-      )
+    if: >
+      (contains(github.event.pull_request.labels.*.name, 'draft') ||
+        contains(github.event.pull_request.labels.*.name, 'review'))
 
     runs-on: ubuntu-latest
     steps:
@@ -40,10 +38,7 @@ jobs:
       github.event.pull_request.assignees != null &&
       (
         (
-          (
-            github.event.action == 'review_requested' ||
-            github.event.action == 'assigned'
-          ) &&
+          contains(fromJson('["review_requested", "assigned"]'), github.event.action) &&
           !contains(github.event.pull_request.labels.*.name, 'draft') &&
           contains(github.event.pull_request.labels.*.name, 'review')
         ) ||
@@ -70,7 +65,7 @@ jobs:
 
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          body: |
+          body: >
             @${{ github.event.sender.login }} からレビュー依頼がありました。
             @${{ join(github.event.pull_request.requested_reviewers.*.login, ' @') }} よろしくお願いします。
             ## レビュー
