@@ -58,4 +58,3 @@ jobs:
             - [ ] 環境の設定値等に依存する処理がある場合、その観点がある
             - [ ] **やらなかったこと** に issue が作成され、記載されている
             "
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
