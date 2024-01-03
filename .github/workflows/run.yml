@@ -15,10 +15,13 @@ jobs:
 
   eslint:
     if: >
-      github.event.pull_request.assignee != null &&
+      github.event.action == 'synchronize' ||
       (
-        contains(github.event.pull_request.labels.*.name, 'draft') ||
-        contains(github.event.pull_request.labels.*.name, 'review')
+        github.event.pull_request.assignee != null &&
+        (
+          contains(github.event.pull_request.labels.*.name, 'draft') ||
+          contains(github.event.pull_request.labels.*.name, 'review')
+        )
       )
     name: checker / eslint
     runs-on: ubuntu-latest
