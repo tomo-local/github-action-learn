@@ -7,9 +7,8 @@ on:
       - labeled
       - assigned
       - opened
-      - reopened
-    # paths:
-    #   - 'src/**'
+    paths:
+      - 'src/**'
 
 jobs:
 
