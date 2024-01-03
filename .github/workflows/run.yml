@@ -15,14 +15,14 @@ on:
       - step*
 
 jobs:
-  check:
+  eslint:
     if: >
       github.event.pull_request.assignee != null &&
       (
         contains(github.event.pull_request.labels.*.name, 'draft') ||
         contains(github.event.pull_request.labels.*.name, 'review')
       )
-    name: checker
+    name: eslint checker
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -41,6 +41,21 @@ jobs:
           reporter: github-check
           workdir: "./"
           eslint_flags: "--no-eslintrc -c .eslintrc.json src/"
+
+  misspell:
+    if: >
+      github.event.pull_request.assignee != null &&
+      (
+        contains(github.event.pull_request.labels.*.name, 'draft') ||
+        contains(github.event.pull_request.labels.*.name, 'review')
+      )
+    name: misspell checker
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v2
       - name: Check misspell
         uses: reviewdog/action-misspell@v1
         with:
