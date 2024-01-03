@@ -7,6 +7,7 @@ on:
       - labeled
       - assigned
       - opened
+      - reopened
     # paths:
     #   - 'src/**'
 
@@ -14,9 +15,9 @@ jobs:
 
   eslint:
     if: >
-      github.event.pull_request.assignee != null &&
+      github.event.action == 'synchronize' ||
       (
-        contains(fromJson('["synchronize", "assigned", "labeled", "opened"]'), github.event.action) &&
+        github.event.pull_request.assignee != null &&
         (
           contains(github.event.pull_request.labels.*.name, 'draft') ||
           contains(github.event.pull_request.labels.*.name, 'review')
