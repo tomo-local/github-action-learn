@@ -1,6 +1,7 @@
 name: pull-request-review
 
 on:
+  # pull_request_target: だと eslintが target のコードを検証するので、 pull_request: に変更
   pull_request:
     types:
       - synchronize

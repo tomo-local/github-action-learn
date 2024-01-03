@@ -14,6 +14,9 @@ on:
       - feature/*
       - sp*
       - step*
+      - develop
+      - main
+      - release/*
 
 jobs:
   eslint:
@@ -39,7 +42,7 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           node_options: "--max_old_space_size=8192"
-          reporter: github-check
+          reporter: github-pr-review
           workdir: "./"
           eslint_flags: "--no-eslintrc -c .eslintrc.json src/"
 
