@@ -3,8 +3,8 @@ name: pull-request-target
 on:
   pull_request_target:
     types:
+      - review_requested
       - labeled
-      - unlabeled
 
 jobs:
   sample-job:
@@ -31,6 +31,7 @@ jobs:
 
   comment-review:
     if: |
+      github.event.review_requester != null &&
       contains(github.event.pull_request.labels.*.name, 'review') &&
       contains(github.event.pull_request.labels.*.name, 'draft')
 
