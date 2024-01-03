@@ -1,0 +1,49 @@
+name: pull-request-review
+
+on:
+  pull_request_target:
+    types:
+      - synchronize
+      - labeled
+      - assigned
+
+jobs:
+  if: >
+    github.event.pull_request.assignee != null &&
+    (
+      contains(fromJson('["synchronize", "assigned", "labeled"]'), github.event.action) &&
+      (
+        contains(github.event.pull_request.labels.*.name, 'draft') ||
+        contains(github.event.pull_request.labels.*.name, 'review')
+      )
+    )
+
+  eslint:
+    name: checker / eslint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - run: npm install --legacy-peer-deps
+      - uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          node_options: "--max_old_space_size=8192"
+          reporter: github-check
+          workdir: "./"
+          eslint_flags: "--no-eslintrc -c .eslintrc.json src/"
+
+  misspell:
+    name: checker / misspell
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code.
+        uses: actions/checkout@v2
+      - name: misspell
+        uses: reviewdog/action-misspell@v1
+        with:
+          node-version: "16"
+          github_token: ${{ secrets.github_token }}
+          locale: "US"
