@@ -1,5 +1,7 @@
 console.log('Hello World!');
-const test = 1;
-test.toString();
+let a = 1;
+let b = 2;
+
+console.log(a + b);
 
 // Path: src/main.js
