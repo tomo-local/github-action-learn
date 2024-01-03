@@ -9,6 +9,9 @@ on:
       - opened
     paths:
       - 'src/**'
+    branches:
+      - feature/*
+      - sp*
 
 jobs:
 
