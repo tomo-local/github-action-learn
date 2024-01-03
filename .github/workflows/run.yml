@@ -31,12 +31,19 @@ jobs:
     #     run: echo "labeled draft"
 
   comment-review:
-    if: |
-      contains(github.event.pull_request.labels.*.name, 'review') &&
-      !contains(github.event.pull_request.labels.*.name, 'draft') &&
-      github.event.pull_request.requested_reviewers != null
 
-    # github.event.pull_request.reviewers != null
+    if: |
+      github.event.pull_request.requested_reviewers != null &&
+      (
+        (
+          github.event.action == 'review_requested' &&
+          !contains(github.event.pull_request.labels.*.name, 'draft')
+        ) ||
+        (
+          github.event.action == 'unlabeled' &&
+          contains(github.event.label.name, 'draft')
+        )
+      )
 
     runs-on: ubuntu-latest
 
@@ -50,7 +57,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ## メイン
+            ### レビュー
             - [ ] ベースブランチが `sp~` である (or 大きい修正の場合は機能開発用のブランチである)
             - [ ] コードレビュー
             - [ ] 簡易テスト
