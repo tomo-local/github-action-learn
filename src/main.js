@@ -1,1 +1,5 @@
-console.log('Hello World2');
+const sample = () => {
+  return "sample";
+}
+
+sample();
