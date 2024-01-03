@@ -10,11 +10,7 @@ jobs:
   sample-job:
     if: |
       contains(github.event.pull_request.labels.*.name, 'draft') ||
-      contains(github.event.pull_request.labels.*.name, 'review') ||
-      ( contains(github.event.label.name, 'draft') &&
-        github.event.action == 'labeled' ) ||
-      ( contains(github.event.label.name, 'review') &&
-        github.event.action == 'labeled' )
+      contains(github.event.pull_request.labels.*.name, 'review')
 
     runs-on: ubuntu-latest
     steps:
@@ -32,3 +28,31 @@ jobs:
 
       - if: contains(github.event.label.name, 'draft')
         run: echo "labeled draft"
+
+  comment-review:
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'review') &&
+      github.event.pull_request.reviewers != null
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: reviewer-check-message
+        uses: actions/checkout@v3
+      - name: Checkout
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            "
+            ## メイン
+            - [ ] ベースブランチが `sp~` である (or 大きい修正の場合は機能開発用のブランチである)
+            - [ ] コードレビュー
+            - [ ] 簡易テスト
+              - [ ] テスト観点
+              - [ ] 追加・修正した機能の観点がある
+              - [ ] 影響が既存機能に及ぶ場合、その観点がある（デグレチェック）
+            - [ ] 権限による挙動の差異がある場合、その観点がある
+            - [ ] 環境の設定値等に依存する処理がある場合、その観点がある
+            - [ ] **やらなかったこと** に issue が作成され、記載されている
+            "
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
