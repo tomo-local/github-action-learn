@@ -33,7 +33,7 @@ jobs:
     if: |
       github.event.review_requester != null &&
       contains(github.event.pull_request.labels.*.name, 'review') &&
-      contains(github.event.pull_request.labels.*.name, 'draft')
+      !contains(github.event.pull_request.labels.*.name, 'draft')
 
     # github.event.pull_request.reviewers != null
 
