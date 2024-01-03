@@ -42,12 +42,12 @@ jobs:
         ) ||
         (
           github.event.action == 'unlabeled' &&
-          contains(github.event.label.name, 'draft')
+          contains(github.event.label.name, 'draft') &&
           contains(github.event.pull_request.labels.*.name, 'review')
         ) ||
         (
           github.event.action == 'labeled' &&
-          contains(github.event.label.name, 'review')
+          contains(github.event.label.name, 'review') &&
           !contains(github.event.pull_request.labels.*.name, 'draft')
         )
       )
