@@ -5,6 +5,7 @@ on:
     types:
       - review_requested
       - labeled
+      - unlabeled
 
 jobs:
   sample-job:
