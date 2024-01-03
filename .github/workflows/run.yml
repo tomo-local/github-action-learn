@@ -34,6 +34,7 @@ jobs:
 
     if: |
       github.event.pull_request.requested_reviewers != null &&
+      github.event.pull_request.assignees != null &&
       (
         (
           github.event.action == 'review_requested' &&
