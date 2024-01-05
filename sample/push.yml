@@ -1,0 +1,24 @@
+name: sample-push
+
+on:
+  push:
+    paths:
+      - src/**
+    paths-ignore:
+      - sample/push.yml
+    branches:
+      - master
+    branches-ignore:
+      - 'v*'
+    tags:
+      - v*
+      - '*-rc*'
+    tags-ignore:
+      - 'v*'
+      - '*-rc*'
+
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "this is a test"

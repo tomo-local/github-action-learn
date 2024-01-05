@@ -1,0 +1,80 @@
+name: pull-request-target
+
+on:
+  pull_request_target:
+    types:
+      - review_requested
+      - labeled
+      - unlabeled
+      - assigned
+
+jobs:
+  auto-check-review:
+    if: >
+      (contains(github.event.pull_request.labels.*.name, 'draft') ||
+        contains(github.event.pull_request.labels.*.name, 'review'))
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: labeled
+        uses: actions/checkout@v2
+
+      - if: contains(github.event.pull_request.labels.*.name, 'draft')
+        run: echo "includes draft"
+
+      - if: contains(github.event.pull_request.labels.*.name, 'review')
+        run: echo "includes review"
+
+      - if: contains(github.event.label.name, 'review')
+        run: echo "labeled review"
+
+      - if: contains(github.event.label.name, 'draft')
+        run: echo "labeled draft"
+
+  comment-review:
+
+    if: |
+      github.event.pull_request.requested_reviewers != null &&
+      github.event.pull_request.assignees != null &&
+      (
+        (
+          contains(fromJson('["review_requested", "assigned"]'), github.event.action) &&
+          !contains(github.event.pull_request.labels.*.name, 'draft') &&
+          contains(github.event.pull_request.labels.*.name, 'review')
+        ) ||
+        (
+          github.event.action == 'unlabeled' &&
+          contains(github.event.label.name, 'draft') &&
+          contains(github.event.pull_request.labels.*.name, 'review')
+        ) ||
+        (
+          github.event.action == 'labeled' &&
+          contains(github.event.label.name, 'review') &&
+          !contains(github.event.pull_request.labels.*.name, 'draft')
+        )
+      )
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: reviewer-check-message
+        uses: peter-evans/create-or-update-comment@v2
+
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: >
+            @${{ github.event.sender.login }} からレビュー依頼がありました。
+            @${{ join(github.event.pull_request.requested_reviewers.*.login, ' @') }} よろしくお願いします。
+            ## レビュー
+            - [ ] ベースブランチが `sp~` である (or 大きい修正の場合は機能開発用のブランチである)
+            - [ ] コードレビュー
+            - [ ] 簡易テスト
+              - [ ] テスト観点
+              - [ ] 追加・修正した機能の観点がある
+              - [ ] 影響が既存機能に及ぶ場合、その観点がある（デグレチェック）
+            - [ ] 権限による挙動の差異がある場合、その観点がある
+            - [ ] 環境の設定値等に依存する処理がある場合、その観点がある
+            - [ ] **やらなかったこと** に issue が作成され、記載されている
