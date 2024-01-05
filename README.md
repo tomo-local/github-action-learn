@@ -10,10 +10,12 @@
   - create sample action in /sample
     - push.yml
     - pull_request.yml
+
 3. step3
   - update sample actions in .github/workflows
   - create sample action in /sample
     - pull_request_target.yml
+
 4. step4
   - update sample actions in .github/workflows
   - create review folder
